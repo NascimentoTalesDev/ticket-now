@@ -12,3 +12,16 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Event {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  date        DateTime
+  price       Float
+
+  // Spot Spot[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
