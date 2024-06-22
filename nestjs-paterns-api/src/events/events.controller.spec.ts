@@ -1,20 +1,43 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EventsController } from './events.controller';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { EventsService } from './events.service';
+import { CreateEventDto } from './dto/create-event.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
+import { ReserveSpotDto } from 'src/spots/dto/reserve-spot.dto';
 
-describe('EventsController', () => {
-  let controller: EventsController;
+@Controller('events')
+export class EventsController {
+  constructor(private readonly eventsService: EventsService) {}
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [EventsController],
-      providers: [EventsService],
-    }).compile();
+  @Post()
+  create(@Body() createEventDto: CreateEventDto) {
+    return this.eventsService.create(createEventDto);
+  }
 
-    controller = module.get<EventsController>(EventsController);
-  });
+  @Get()
+  findAll() {
+    return this.eventsService.findAll();
+  }
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-});
+  @Get(':eventId')
+  findOne(@Param('eventId') eventId: string) {
+    return this.eventsService.findOne(eventId);
+  }
+
+  @Patch(':eventId')
+  update(@Param('eventId') eventId: string, @Body() updateEventDto: UpdateEventDto) {
+    return this.eventsService.update(eventId, updateEventDto);
+  }
+
+  @Delete(':eventId')
+  remove(@Param('eventId') eventId: string) {
+    return this.eventsService.remove(eventId);
+  }
+
+  @Post(':eventId/reserve')
+  reserveSpot(@Body() reserveSpotDto: ReserveSpotDto, @Param('eventId') eventId: string ) {      
+    return this.eventsService.reserveSpot({
+      ...reserveSpotDto,
+      eventId
+    });
+  }
+}
