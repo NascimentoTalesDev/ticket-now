@@ -6,4 +6,5 @@ import { SpotsController } from './spots.controller';
   controllers: [SpotsController],
   providers: [SpotsService],
 })
+
 export class SpotsModule {}

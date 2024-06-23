@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { EventsModule } from './events/events.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { SpotsModule } from './spots/spots.module';
-import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [EventsModule, SpotsModule, PrismaModule],

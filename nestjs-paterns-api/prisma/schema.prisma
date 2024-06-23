@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -20,8 +20,66 @@ model Event {
   date        DateTime
   price       Float
 
-  // Spot Spot[]
+  Spot Spot[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+
+model Spot {
+  id   String @id @default(uuid())
+  name String
+
+  eventId String
+  Event   Event  @relation(fields: [eventId], references: [id])
+
+  status             SpotStatus
+  Ticket             Ticket?
+  ReservationHistory ReservationHistory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Ticket {
+  id         String     @id @default(uuid())
+  email      String
+  ticketKind TicketKind
+
+  spotId String
+  SpotId Spot   @relation(fields: [spotId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([spotId])
+}
+
+model ReservationHistory {
+  id         String     @id @default(uuid())
+  email      String
+  ticketKind TicketKind
+  status     TicketStatus
+
+  spotId String
+  SpotId Spot   @relation(fields: [spotId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum SpotStatus {
+  available
+  reserved
+}
+
+enum TicketStatus {
+  reserved
+  canceled
+}
+
+enum TicketKind {
+  full
+  half
 }

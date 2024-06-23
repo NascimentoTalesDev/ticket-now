@@ -17,18 +17,18 @@ export class EventsController {
     return this.eventsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.eventsService.findOne(+id);
+  @Get(':eventId')
+  findOne(@Param('eventId') eventId: string) {
+    return this.eventsService.findOne(eventId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
-    return this.eventsService.update(+id, updateEventDto);
+  @Patch(':eventId')
+  update(@Param('eventId') eventId: string, @Body() updateEventDto: UpdateEventDto) {
+    return this.eventsService.update(eventId, updateEventDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.eventsService.remove(+id);
+  @Delete(':eventId')
+  remove(@Param('eventId') eventId: string) {
+    return this.eventsService.remove(eventId);
   }
 }

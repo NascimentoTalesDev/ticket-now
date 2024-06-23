@@ -1,0 +1,73 @@
+
+###
+GET http://localhost:3000/events
+
+###
+# @name createEvent
+POST http://localhost:3000/events
+Content-Type: application/json
+
+{
+    "name": "Adelle show",
+    "description": "New description",
+    "date": "2017-01-01T00:00:00",
+    "price": 100
+}
+
+###
+@eventId = {{ createEvent.response.body.id }}
+
+###
+GET http://localhost:3000/events/{{eventId}}
+
+###
+PATCH  http://localhost:3000/events/{{eventId}}
+Content-Type: application/json
+
+{
+    "name": "Adelle 10 years",
+    "description": "New description",
+    "date": "2017-01-01T00:00:00",
+    "price": 100
+}
+
+###
+DELETE  http://localhost:3000/events/{{eventId}}
+
+
+##################################SPOTS
+
+###
+GET http://localhost:3000/events/{{eventId}}/spots
+
+###
+# @name createSpot
+POST http://localhost:3000/events/{{eventId}}/spots
+Content-Type: application/json
+
+{
+    "name": "A1"
+}
+
+###
+@spotId = {{ createSpot.response.body.id }}
+
+###
+GET http://localhost:3000/events/{{eventId}}/spots/{{spotId}}
+
+###
+DELETE  http://localhost:3000/events/{{eventId}}/spots/{{spotId}}
+
+###
+@spotName = {{ createSpot.response.body.name }}
+
+###
+POST http://localhost:3000/events/{{eventId}}/reserve
+Content-Type: application/json
+
+{
+    "spots": ["{{spotName}}"],
+    "ticket_kind": "half",
+    "email": "nascimento@gmail.com"
+}
+
